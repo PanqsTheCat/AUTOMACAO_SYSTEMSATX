@@ -1,0 +1,59 @@
+from conexaoSQL import conectaSQL, fecharConexao
+import pandas as pd
+
+def tabela_dados_cliente_1():
+    conexao = conectaSQL(1)
+    cursor = conexao.cursor()
+    sql = "SELECT Cliente FROM dados_clientes ORDER BY Cliente"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    lista = []
+    for i in results:
+        cliente = i[0]
+        lista.append(cliente)
+    df = pd.DataFrame(lista,columns=['Cliente tabela'])
+    fecharConexao(cursor,conexao)
+    return df
+
+def tabela_dados_cliente_2():
+    conexao = conectaSQL(1)
+    cursor = conexao.cursor()
+    sql = "SELECT DISTINCT Cliente FROM placas ORDER BY Cliente"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    lista = []
+    for i in results:
+        cliente = i[0]
+        lista.append(cliente)
+    df = pd.DataFrame(lista,columns=['Cliente tabela'])
+    fecharConexao(cursor,conexao)
+    return df
+
+def analise_das_duas_tabelas():
+    df1 = tabela_dados_cliente_1()
+    df2 = tabela_dados_cliente_2()
+    df3 = df1.merge(df2, on=['Cliente tabela'], how='outer', suffixes=['','_'], indicator=True)
+    df3.to_excel('./dados_sql_compat/dados_das_2_tabelas.xlsx')
+
+def gerar_excel_com_analise_completa():
+    df = pd.read_excel('./dados_sql_compat/dados_das_2_tabelas.xlsx')
+    lista = []
+    cliente_sem_login = 0
+    for index,row in df.iterrows():
+        cliente = row[1]
+        validador = row[2]
+        if validador == 'both':
+            continue
+        elif validador == 'right_only':
+            cliente_sem_login += 1
+            lista.append(cliente)
+        elif validador == 'left_only':
+            conexao = conectaSQL(1)
+            cursor = conexao.cursor()
+            sql = 'DELETE FROM dados_clientes WHERE Cliente = %s'
+            valor = (cliente,)
+            cursor.execute(sql,valor)
+            fecharConexao(cursor,conexao)
+        else: continue
+    print('Total de Placas sem Cliente:',cliente_sem_login)
+    return lista
