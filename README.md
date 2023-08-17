@@ -4,8 +4,9 @@
 Este projeto, foi realizado com o intuito de,  automatizar o processo de backup e exclusão de placas, da plataforma "SYSTEMSATX".
 
 ## Requisitos Minimos
-
- - Processador: 4nucleos 8threds
+ - Processador: 4 nucleos 8 threds
+ - 8gb RAM
+ - 500gb HD ou ssd
 ## Vantagens
 
 - Relatorios 4x mais rapido
