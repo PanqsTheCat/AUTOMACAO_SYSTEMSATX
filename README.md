@@ -44,7 +44,7 @@ diminuir uso de RAM
 ## Autores
 
 - [@panqs](https://github.com/PanqsTheCat)
-
+- [@FabioSchramm](https://github.com/FabinhoSchramm)
 
 ## Documentação em progresso
 
