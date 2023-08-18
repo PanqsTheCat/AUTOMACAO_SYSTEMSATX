@@ -7,13 +7,12 @@ Este projeto, foi realizado com o intuito de,  automatizar o processo de backup 
  - Processador: 4 nucleos 8 threds
  - 8gb RAM
  - 500gb HD ou ssd
+
 ## Vantagens
 
 - Relatorios 4x mais rapido
 - Não necessita de uma api
 - Relatorio geral por mes
-
-
 
 ## Melhorias
 
